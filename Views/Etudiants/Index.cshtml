@@ -1,0 +1,102 @@
+@model IEnumerable<MonProjetMVC.Models.Etudiant>
+
+@{
+    ViewData["Title"] = "Liste des étudiants";
+}
+<style>
+    #searchInput{
+        position: relative;
+        max-width: 400px;
+        margin-bottom: 1rem;
+    }
+
+    #searchInput input[type="text"] {
+        padding-left: 2rem;
+    }
+
+    #searchInput::before {
+        content: "🔍";
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 1rem;
+        pointer-events: none;
+    }
+
+    .photo-thumb {
+        width: 50px;
+        height: 50px;
+        object-fit: cover;
+        border-radius: 5px;
+    }
+</style>
+<h2 class="mb-4">@ViewData["Title"]</h2>
+<div class="mb-3">
+    <input type="text" id="searchInput"  class="form-control" placeholder="🔍Rechercher un étudiant..." />
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped table-bordered">
+        <thead class="table-dark text-center">
+            <tr>
+                <th>ID</th>
+                <th>Photo</th>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Email</th>
+                <th style="width: 200px;">Actions</th>
+            </tr>
+        </thead>
+        <tbody id="etudiantsTableBody">
+        @foreach (var e in Model)
+        {
+            <tr class="align-middle">
+                <td class="text-center">@e.Id</td>
+                <td class="text-center">
+                    @if (!string.IsNullOrEmpty(e.PhotoPath))
+                    {
+                        <img src="@e.PhotoPath" alt="Photo de @e.Nom" class="photo-thumb" />
+                    }
+                    else
+                    {
+                        <span>—</span>
+                    }
+                </td>
+                <td>@e.Nom</td>
+                <td>@e.Prenom</td>
+                <td>@e.Email</td>
+                <td>
+                    <div class="btn-group" role="group" aria-label="Actions">
+                        <a class="btn btn-info btn-sm" href="@Url.Action("Details", new { id = e.Id })">Détails</a>
+                        <a class="btn btn-warning btn-sm" href="@Url.Action("Edit", new { id = e.Id })">Modifier</a>
+                        <a class="btn btn-danger btn-sm" href="@Url.Action("Delete", new { id = e.Id })">Supprimer</a>
+                    </div>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+
+<p>
+    <a class="btn btn-success" href="@Url.Action("Create")">Ajouter un étudiant</a>
+</p>
+<script>
+    document.getElementById('searchInput').addEventListener('keyup', function () {
+        var searchValue = this.value.toLowerCase();
+        var rows = document.querySelectorAll('#etudiantsTableBody tr');
+
+        rows.forEach(function(row) {
+            var nom = row.cells[1].textContent.toLowerCase();
+            var prenom = row.cells[2].textContent.toLowerCase();
+            var email = row.cells[3].textContent.toLowerCase();
+
+            if (nom.includes(searchValue) || prenom.includes(searchValue) || email.includes(searchValue)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    });
+</script>
