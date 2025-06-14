@@ -1,0 +1,22 @@
+@model MonProjetMVC.Models.Etudiant
+
+@{
+    ViewData["Title"] = "Supprimer un étudiant";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<h4>Es-tu sûr de vouloir supprimer cet étudiant ?</h4>
+
+<div class="mb-4">
+    <p><strong>Nom :</strong> @Model.Nom</p>
+    <p><strong>Prénom :</strong> @Model.Prenom</p>
+    <p><strong>Email :</strong> @Model.Email</p>
+</div>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger me-2">Supprimer</button>
+    <a href="@Url.Action("Index")" class="btn btn-secondary">Annuler</a>
+</form>
+

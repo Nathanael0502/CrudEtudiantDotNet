@@ -1,0 +1,33 @@
+@model MonProjetMVC.Models.Etudiant
+
+@{
+    ViewData["Title"] = "Créer un étudiant";
+}
+
+
+<form asp-action="Create" method="post" class="needs-validation" enctype="multipart/form-data" novalidate>
+    <div class="mb-3">
+        <label asp-for="Nom" class="form-label"></label>
+        <input asp-for="Nom" class="form-control" placeholder="Nom" />
+        <span asp-validation-for="Nom" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Prenom" class="form-label"></label>
+        <input asp-for="Prenom" class="form-control" placeholder="Prénom" />
+        <span asp-validation-for="Prenom" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Email" class="form-label"></label>
+        <input asp-for="Email" type="email" class="form-control" placeholder="Email" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+<div class="mb-3">
+    <label for="Photo" class="form-label">Photo</label>
+    <input type="file" name="Photo" class="form-control" />
+</div>
+
+    <button type="submit" class="btn btn-primary">Créer</button>
+    <a href="@Url.Action("Index")" class="btn btn-secondary">Annuler</a>
+</form>
